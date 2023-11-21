@@ -3,10 +3,10 @@ import {
   NextRequest,
   NextResponse,
 } from 'next/server';
-
+import { connect } from "src/dbConfig/dbConfig"
 import User from '@/src/models/userModel';
 
-// connect()
+connect()
 
 export async function POST (request: NextRequest){
     try {
