@@ -27,6 +27,7 @@ export default function LoginPage(){
              const response = await axios.post("api/users/login", user)           
           
               console.log("Login success", response.data);
+            
              router.push("/profile");
            
 
@@ -51,6 +52,7 @@ export default function LoginPage(){
     }, [user])
     return (
         <div className="flex flex-col items-center justify-center min-h-screen py-2 ">
+            <h1>hello</h1>
             <h1>{loading ? "Processing" : "Logged in"}</h1>
             <hr />
          <hr/>

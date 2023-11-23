@@ -3,9 +3,19 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { gql, useQuery } from '@apollo/client';
 
+const MY_QUERY = gql`
+   type Query {
+    getUser(id: ID!): User
+    username: [Username]
+    email: [Email]
+    
+  }
+`;
 
 export default function SignUpPage() {
+  // const { error, data } = useQuery(MY_QUERY);
   const router = useRouter();
   const [user, setUser] = React.useState({
     email: "",
@@ -39,7 +49,19 @@ export default function SignUpPage() {
 
       }
   }, [user]);
+
+
+  // if (error) return <p>Error: {error.message}</p>;
   return (
+    <>
+    {/* <div>
+    {data.users.map((user: any) => (
+      <div key={user.id}>
+        <h3>{user.username}</h3>
+        <p>{user.email}</p>
+      </div>
+    ))}
+  </div> */}
     <div className="flex flex-col items-center justify-center min-h-screen py-2 ">
       <h1>{loading ? "Processing" : "Sign up"}</h1>
       <hr />
@@ -82,5 +104,6 @@ export default function SignUpPage() {
       <hr />
       <Link href="/login">Visit sign up here</Link>
     </div>
+    </>
   );
 }
