@@ -20,7 +20,7 @@ export const Novel = ({ novel }: Props) => {
 		
 			{novel.image && (
 				<div >
-					<img
+					<image
 						src={novel.image}
 						alt={novel.title}
 						className="h-56 w-full object-contain rounded-t-lg shadow-md"
