@@ -80,9 +80,12 @@
 // }
 
 
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import client from '../../../apollo-client';
 import { useRouter } from "next/navigation";
+import { gql } from 'apollo-server';
+
+
 import axios from "axios";
 
 const GET_GAMES = gql`
@@ -145,7 +148,7 @@ const GamesPage = () => {
                     <div key={game.id} style={gameStyle}>
                         <h2 style={titleStyle}>{game.title}</h2>
                         <p style={platformStyle}>Platform: {game.platform}</p>
-                        {/* Display other details */}
+                      
                     </div>
                 ))}
             </div>
