@@ -6,7 +6,7 @@ export const Header = () => {
 			<h1 className="text-5xl text-white text-center">
 				Top{" "}
 				<span className="underline underline-offset-8 decoration-red-500">
-					Books{" "}
+					Games{" "}
 				</span>
 				Of All Time
 			</h1>

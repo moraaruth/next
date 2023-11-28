@@ -3,16 +3,16 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { gql, useQuery } from '@apollo/client';
+// import { gql, useQuery } from '@apollo/client';
 
-const MY_QUERY = gql`
-   type Query {
-    getUser(id: ID!): User
-    username: [Username]
-    email: [Email]
+// const MY_QUERY = gql`
+//    type Query {
+//     getUser(id: ID!): User
+//     username: [Username]
+//     email: [Email]
     
-  }
-`;
+//   }
+// `;
 
 export default function SignUpPage() {
   // const { error, data } = useQuery(MY_QUERY);
@@ -51,59 +51,78 @@ export default function SignUpPage() {
   }, [user]);
 
 
-  // if (error) return <p>Error: {error.message}</p>;
   return (
-    <>
-    {/* <div>
-    {data.users.map((user: any) => (
-      <div key={user.id}>
-        <h3>{user.username}</h3>
-        <p>{user.email}</p>
+    <div
+      className="flex flex-col items-center justify-center min-h-screen py-2"
+      style={{
+        fontFamily: 'Arial, sans-serif',
+        backgroundColor: '#f4f4f4',
+        textAlign: 'center',
+      }}
+    >
+      <h1
+        style={{
+          fontSize: '28px',
+          fontWeight: 'bold',
+          marginBottom: '20px',
+          color: '#333',
+        }}
+      >
+        Sign Up
+      </h1>
+      <div style={{ width: '300px', marginBottom: '15px', marginLeft: '40%' }}>
+        <label htmlFor="username">Username</label>
+        <input
+          style={{ width: '100%', padding: '8px', borderRadius: '5px' }}
+          id="username"
+          type="text"
+          value={user.username}
+          onChange={(e) => setUser({ ...user, username: e.target.value })}
+          placeholder="Enter your username"
+        />
       </div>
-    ))}
-  </div> */}
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 ">
-      <h1>{loading ? "Processing" : "Sign up"}</h1>
-      <hr />
-      <label htmlFor="username">username</label>
-      <hr />
-      <input
-        className="p-2 border-gray-300 rounded-lg"
-        id="username"
-        type="text"
-        value={user.username}
-        onChange={(e) => setUser({ ...user, username: e.target.value })}
-        placeholder="username"
-      />
-      <hr />
-      <label htmlFor="email">email</label>
-      <hr />
-      <input
-        className="p-2 border-gray-300 rounded-lg"
-        id="email"
-        type="text"
-        value={user.email}
-        onChange={(e) => setUser({ ...user, email: e.target.value })}
-        placeholder="email"
-      />
-      <hr />
-      <label htmlFor="password">password</label>
-      <hr />
-      <input
-        className="p-2 border-gray-300 rounded-lg"
-        id="password"
-        type="password"
-        value={user.password}
-        onChange={(e) => setUser({ ...user, password: e.target.value })}
-        placeholder="password"
-      />
-      <hr />
-      <button onClick={onSignup} className="p-2 border-gray-300 rounded-lg">
-        {buttonDisabled ? "No sign up" : "Sign up"}
-      </button>{" "}
-      <hr />
-      <Link href="/login">Visit sign up here</Link>
+      <div style={{ width: '300px', marginBottom: '15px', marginLeft: '40%' }}>
+        <label htmlFor="email">Email</label>
+        <input
+          style={{ width: '100%', padding: '8px', borderRadius: '5px' }}
+          id="email"
+          type="text"
+          value={user.email}
+          onChange={(e) => setUser({ ...user, email: e.target.value })}
+          placeholder="Enter your email"
+        />
+      </div>
+      <div style={{ width: '300px', marginBottom: '15px', marginLeft: '40%' }}>
+        <label htmlFor="password">Password</label>
+        <input
+          style={{ width: '100%', padding: '8px', borderRadius: '5px' }}
+          id="password"
+          type="password"
+          value={user.password}
+          onChange={(e) => setUser({ ...user, password: e.target.value })}
+          placeholder="Enter your password"
+        />
+      </div>
+      <button
+        onClick={onSignup}
+        style={{
+          padding: '10px 20px',
+          borderRadius: '5px',
+          border: 'none',
+          backgroundColor: buttonDisabled ? '#ccc' : '#007bff',
+          color: '#fff',
+          cursor: buttonDisabled ? 'not-allowed' : 'pointer',
+        }}
+        disabled={buttonDisabled}
+      >
+        {loading ? 'Processing' : 'Sign Up'}
+      </button>
+      <p style={{ marginTop: '10px', fontSize: '14px' }}>
+        Already have an account?{' '}
+        <Link href="/login" style={{ color: '#007bff', textDecoration: 'underline' }}>
+          Log In
+        </Link>
+      </p>
     </div>
-    </>
   );
 }

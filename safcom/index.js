@@ -58,13 +58,13 @@ const resolvers = {
 
         },
         // addGame(_, {AddGameInput: { title, platform}}) {
-            // let game = {
-            //     ...args.game,
-            //     id: Math.floor(Math.random() * 10000).toString()
-            // }
-            // db.games.push(game)
-            // const res =  game.save()
-            // return game
+        // let game = {
+        //     ...args.game,
+        //     id: Math.floor(Math.random() * 10000).toString()
+        // }
+        // db.games.push(game)
+        // const res =  game.save()
+        // return game
         //     const createGame = new Game({
         //         title: title,
         //         platform: platform,
@@ -85,13 +85,13 @@ const resolvers = {
         //     if (!game || !game.title || !game.platform) {
         //       throw new Error("Invalid input object or missing required fields.");
         //     }
-          
+
         //     // Access 'title' and 'platform' from the 'game' input object
         //     const { title, platform } = game;
-          
+
         //     // Perform logic to create a new game or process input data
         //     // For example, save to a database, etc.
-          
+
         //     // Return a 'Game' object (replace with actual data or generated values)
         //     return {
         //       id: '123', // Replace with actual ID
@@ -104,47 +104,96 @@ const resolvers = {
         addGame(_, { game }, context, info) {
             // Check if 'game' input object exists and contains 'title' and 'platform'
             if (!game || !game.title || !game.platform) {
-              throw new Error("Invalid input object or missing required fields.");
+                throw new Error("Invalid input object or missing required fields.");
             }
-          
+
             // Access 'title' and 'platform' from the 'game' input object
             const { title, platform } = game;
-          
+
             // Create a new instance of the 'Game' model (assuming 'Game' is a Mongoose model)
             const newGame = new Game({
-              title: title,
-              platform: platform,
-              // Other fields...
+                title: title,
+                platform: platform
+            
+               
+            
             });
-          
+
             // Save the new game to MongoDB (returns a promise)
             return newGame.save()
-              .then(savedGame => {
-                // Return the saved game object
-                return savedGame;
-              })
-              .catch(error => {
-                // Handle any errors that occur during the database operation
-                throw new Error(`Failed to add game: ${error.message}`);
-              });
-          },
-          
-          
-        updateGame(_, args) {
-            db.games = db.games.map((g) => {
-                if (g.id === args.id) {
-                    return { ...g, ...args.edits }
+                .then(savedGame => {
+                    // Return the saved game object
+                    return savedGame;
+                })
+                .catch(error => {
+                    // Handle any errors that occur during the database operation
+                    throw new Error(`Failed to add game: ${error.message}`);
+                });
+        },
 
+
+        //     updateGame(_, args) {
+        //         db.games = db.games.map((g) => {
+        //             if (g.id === args.id) {
+        //                 return { ...g, ...args.edits }
+
+        //             }
+
+        //             return g
+        //         })
+
+        //         return db.games.find((g) => g.id === args.id)
+
+        //     }
+
+        async updateGame(_, args) {
+            try {
+                const { id, edits } = args;
+                if (!id || !edits) {
+                    throw new Error("Invalid input: 'id' and 'edits' are required.");
                 }
 
-                return g
-            })
+                // Find the game by ID in the MongoDB using Mongoose
+                const gameToUpdate = await Game.findById(id);
+                if (!gameToUpdate) {
+                    throw new Error("Game not found.");
+                }
 
-            return db.games.find((g) => g.id === args.id)
+                // Apply edits to the game object
+                Object.assign(gameToUpdate, edits);
 
-        }
+                // Save the updated game to the database
+                const updatedGame = await gameToUpdate.save();
+
+                return updatedGame;
+            } catch (error) {
+                throw new Error(`Failed to update game: ${error.message}`);
+            }
+        },
+
+        async  deleteGame(gameId) {
+            try {
+              const result = await Game.deleteOne({ _id: gameId });
+              if (result.deletedCount === 1) {
+                console.log('Game deleted successfully');
+                return true; // Indicates successful deletion
+              } else {
+                console.log('Game not found or could not be deleted');
+                return false; // Indicates no document was deleted
+              }
+            } catch (error) {
+              console.error('Error deleting game:', error);
+              throw new Error('Failed to delete game');
+            }
+          }
+
+
     }
 }
+
+
+
+
 
 const server = new ApolloServer({
     typeDefs,
@@ -171,14 +220,14 @@ const server = new ApolloServer({
 //       })
 
 mongoose.connect(MONGODB, { useNewUrlParser: true })
-  .then(() => {
-    console.log("MongoDB Connection successful");
-    // Start the Apollo Server
-    return startStandaloneServer(server, { listen: { port: 4000 } });
-  })
-  .then(({ url }) => {
-    console.log('Server ready at', url);
-  })
-  .catch((error) => {
-    console.error('Error connecting to MongoDB or starting the server:', error);
-  });
+    .then(() => {
+        console.log("MongoDB Connection successful");
+        // Start the Apollo Server
+        return startStandaloneServer(server, { listen: { port: 4000 } });
+    })
+    .then(({ url }) => {
+        console.log('Server ready at', url);
+    })
+    .catch((error) => {
+        console.error('Error connecting to MongoDB or starting the server:', error);
+    });
