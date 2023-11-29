@@ -3,19 +3,9 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-// import { gql, useQuery } from '@apollo/client';
-
-// const MY_QUERY = gql`
-//    type Query {
-//     getUser(id: ID!): User
-//     username: [Username]
-//     email: [Email]
-    
-//   }
-// `;
 
 export default function SignUpPage() {
-  // const { error, data } = useQuery(MY_QUERY);
+
   const router = useRouter();
   const [user, setUser] = React.useState({
     email: "",
@@ -29,8 +19,9 @@ export default function SignUpPage() {
   const onSignup = async () => {
     try {
       setLoading(true);
-     const response = await axios.post("api/users/signup", user)
-      console.log("Signup success", response.data);
+      //     const response =  axios.post("api/users/signup", user)
+    axios.post("api/users/signup", user)
+      // console.log("Signup success", response.data);
       router.push("/login");
     } catch (error: any) {
       console.log("Signup failed", error.message);
