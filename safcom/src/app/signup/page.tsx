@@ -3,7 +3,10 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1937aea666aea428bdfed3492778b9f2e6ed695f
 
 export default function SignUpPage() {
 
@@ -20,8 +23,9 @@ export default function SignUpPage() {
   const onSignup = async () => {
     try {
       setLoading(true);
-     const response = await axios.post("api/users/signup", user)
-      console.log("Signup success", response.data);
+      //     const response =  axios.post("api/users/signup", user)
+    axios.post("api/users/signup", user)
+      // console.log("Signup success", response.data);
       router.push("/login");
     } catch (error: any) {
       console.log("Signup failed", error.message);

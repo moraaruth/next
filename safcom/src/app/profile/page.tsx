@@ -9,16 +9,16 @@
 
 
 
-// export const getStaticProps: GetStaticProps = async () => {
-//     const res = await fetch('http://localhost:4000/');
-//     const games: Game[] = await res.json();
+// // export const getStaticProps: GetStaticProps = async () => {
+// //     const res = await fetch('http://localhost:4000/');
+// //     const games: Game[] = await res.json();
 
-//     return {
-//       props: {
-//         games,
-//       },
-//     };
-//   };
+// //     return {
+// //       props: {
+// //         games,
+// //       },
+// //     };
+// //   };
 
 
 // export default function ProfilePage() {
@@ -80,7 +80,7 @@
 // }
 
 
-import { useQuery } from '@apollo/client';
+ import { useQuery } from '@apollo/client';
 import client from '../../../apollo-client';
 import { useRouter } from "next/navigation";
 // import { gql } from 'apollo-server';
@@ -99,7 +99,11 @@ import axios from "axios";
 // `;
 
 const GamesPage = () => {
+<<<<<<< HEAD
     // const { loading, error, data } = useQuery(GET_GAMES, { client });
+=======
+    //  const { loading, error, data } = useQuery(GET_GAMES, { client });
+>>>>>>> 1937aea666aea428bdfed3492778b9f2e6ed695f
     const router = useRouter()
 
     const containerStyle = {
@@ -142,7 +146,12 @@ const GamesPage = () => {
 
     return (
         <>
+<<<<<<< HEAD
             {/* <div style={containerStyle}>
+=======
+{/*      
+             <div style={containerStyle}>
+>>>>>>> 1937aea666aea428bdfed3492778b9f2e6ed695f
                 <h1>Games</h1>
                 {data.games.map((game: any) => (
                     <div key={game.id} style={gameStyle}>
@@ -151,7 +160,11 @@ const GamesPage = () => {
                       
                     </div>
                 ))}
+<<<<<<< HEAD
             </div> */}
+=======
+            </div>  */}
+>>>>>>> 1937aea666aea428bdfed3492778b9f2e6ed695f
             <button
                 onClick={logout}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
