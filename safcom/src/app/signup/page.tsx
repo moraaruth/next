@@ -3,19 +3,10 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-// import { gql, useQuery } from '@apollo/client';
 
-// const MY_QUERY = gql`
-//    type Query {
-//     getUser(id: ID!): User
-//     username: [Username]
-//     email: [Email]
-    
-//   }
-// `;
 
 export default function SignUpPage() {
-  // const { error, data } = useQuery(MY_QUERY);
+
   const router = useRouter();
   const [user, setUser] = React.useState({
     email: "",

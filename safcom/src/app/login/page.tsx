@@ -1,4 +1,3 @@
-
 "use client";
 import Link from "next/link";
 import React, { useEffect } from 'react';
@@ -34,7 +33,7 @@ export default function LoginPage(){
             
         } catch (error: any) {
             console.log("login failed", error.message);
-            // toast.error(error.message)
+      
             
         } finally {
             setLoading(false)

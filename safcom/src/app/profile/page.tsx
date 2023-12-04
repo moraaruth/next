@@ -83,23 +83,23 @@
 import { useQuery } from '@apollo/client';
 import client from '../../../apollo-client';
 import { useRouter } from "next/navigation";
-import { gql } from 'apollo-server';
+// import { gql } from 'apollo-server';
 
 
 import axios from "axios";
 
-const GET_GAMES = gql`
-  query GetGames {
-    games {
-      id  
-      title  
-      platform  
-    }
-  }
-`;
+// const GET_GAMES = gql`
+//   query GetGames {
+//     games {
+//       id  
+//       title  
+//       platform  
+//     }
+//   }
+// `;
 
 const GamesPage = () => {
-    const { loading, error, data } = useQuery(GET_GAMES, { client });
+    // const { loading, error, data } = useQuery(GET_GAMES, { client });
     const router = useRouter()
 
     const containerStyle = {
@@ -137,12 +137,12 @@ const GamesPage = () => {
         color: '#555',
     };
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error.message}</p>;
+    // if (loading) return <p>Loading...</p>;
+    // if (error) return <p>Error: {error.message}</p>;
 
     return (
         <>
-            <div style={containerStyle}>
+            {/* <div style={containerStyle}>
                 <h1>Games</h1>
                 {data.games.map((game: any) => (
                     <div key={game.id} style={gameStyle}>
@@ -151,7 +151,7 @@ const GamesPage = () => {
                       
                     </div>
                 ))}
-            </div>
+            </div> */}
             <button
                 onClick={logout}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
