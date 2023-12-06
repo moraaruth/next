@@ -1,178 +1,97 @@
 "use client"
-// import { useState } from 'react'
-// import { useRouter } from "next/navigation"
-// import axios from "axios"
-// import Game from '../../../Games'
-// import Link from "next/link"
-// import gamesData from '../../../_db'
-// import { GetStaticProps, NextPage } from "next";
+import { useState } from 'react';
+import { useQuery } from '@apollo/client';
+import { useRouter } from 'next/navigation';
+import { gql } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
+import apolloClient from '../../../lib/apollo';
+import axios from 'axios';
 
-
-
-// // export const getStaticProps: GetStaticProps = async () => {
-// //     const res = await fetch('http://localhost:4000/');
-// //     const games: Game[] = await res.json();
-
-// //     return {
-// //       props: {
-// //         games,
-// //       },
-// //     };
-// //   };
-
-
-// export default function ProfilePage() {
-//     const router = useRouter()
-//     const [data, setData] = useState("")
-
-//     const logout = async () => {
-//         try {
-//             await axios.get("/api/users/logout")
-//             router.push("/login")
-
-//         } catch (error: any) {
-//             console.log(error.message)
-
-//         }
-
-//     }
-
-//     const getUserDetails = async () => {
-//         const res = await axios.get('api/users/me')
-//         console.log(res.data);
-//         setData(res.data.data._id)
-//     }
-//     return (
-//         <div>
-//             <h1>Profile</h1>
-
-//             <hr />
-//             <p>Profile page</p>
-
-
-//             <hr />
-//             {/* <div>
-//                 <h1>List of Games</h1>
-//                 <ul>
-//                     {Games.map((game: Game, index: number) => (
-//                         <li key={index}>
-//                             <h2>{game.title}</h2>
-//                             <p>Platform: {game.platform}</p>
-//                             <p>Reviews: {game.reviews}</p>
-//                         </li>
-//                     ))}
-//                 </ul>
-//             </div> */}
-//             <button
-//                 onClick={logout}
-//                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-//             >
-//                 Logout
-//             </button>
-//             <button
-//                 onClick={getUserDetails}
-//                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-//             >
-//                 User Details
-//             </button>
-//         </div>
-//     )
-// }
-
-
- import { useQuery } from '@apollo/client';
-import client from '../../../apollo-client';
-import { useRouter } from "next/navigation";
-// import { gql } from 'apollo-server';
-
-
-import axios from "axios";
-
-// const GET_GAMES = gql`
-//   query GetGames {
-//     games {
-//       id  
-//       title  
-//       platform  
-//     }
-//   }
-// `;
+const GET_GAMES = gql`
+  query GetGames {
+    games {
+      id
+      title
+      platform
+    }
+  }
+`;
 
 const GamesPage = () => {
-<<<<<<< HEAD
-    // const { loading, error, data } = useQuery(GET_GAMES, { client });
-=======
-    //  const { loading, error, data } = useQuery(GET_GAMES, { client });
->>>>>>> 1937aea666aea428bdfed3492778b9f2e6ed695f
-    const router = useRouter()
+  const { data } = useQuery(GET_GAMES, { client: apolloClient });
+  const router = useRouter();
 
-    const containerStyle = {
-        fontFamily: 'Arial, sans-serif',
-        padding: '20px',
-        backgroundColor: '#f4f4f4',
-    };
+  const [games, setGames] = useState(data ? data.games : []);
 
-    const gameStyle = {
-        marginBottom: '20px',
-        border: '1px solid #ccc',
-        borderRadius: '5px',
-        padding: '10px',
-        backgroundColor: '#fff',
-    };
+  const containerStyle = {
+    fontFamily: 'Arial, sans-serif',
+    padding: '20px',
+    backgroundColor: '#f4f4f4',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gridGap: '20px',
+  };
 
-    const titleStyle = {
-        fontSize: '1.5em',
-        fontWeight: 'bold',
-        marginBottom: '5px',
-    };
+  const gameStyle = {
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    padding: '10px',
+    backgroundColor: '#fff',
+  };
 
-    const logout = async () => {
-        try {
-            await axios.get("/api/users/logout")
-            router.push("/login")
+  const titleStyle = {
+    fontSize: '1.5em',
+    fontWeight: 'bold',
+    marginBottom: '5px',
+  };
 
-        } catch (error: any) {
-            console.log(error.message)
+  const platformStyle = {
+    color: '#555',
+  };
 
-        }
-
+  const logout = async () => {
+    try {
+      await axios.get('/api/users/logout');
+      router.push('/login');
+    } catch (error) {
+      console.log("message");
     }
-    const platformStyle = {
-        color: '#555',
-    };
+  };
 
-    // if (loading) return <p>Loading...</p>;
-    // if (error) return <p>Error: {error.message}</p>;
+  const handleDelete = (gameId: any) => {
+    const updatedGames = games.filter((game: any) => game.id !== gameId);
+    setGames(updatedGames);
+  };
 
-    return (
-        <>
-<<<<<<< HEAD
-            {/* <div style={containerStyle}>
-=======
-{/*      
-             <div style={containerStyle}>
->>>>>>> 1937aea666aea428bdfed3492778b9f2e6ed695f
-                <h1>Games</h1>
-                {data.games.map((game: any) => (
-                    <div key={game.id} style={gameStyle}>
-                        <h2 style={titleStyle}>{game.title}</h2>
-                        <p style={platformStyle}>Platform: {game.platform}</p>
-                      
-                    </div>
-                ))}
-<<<<<<< HEAD
-            </div> */}
-=======
-            </div>  */}
->>>>>>> 1937aea666aea428bdfed3492778b9f2e6ed695f
-            <button
-                onClick={logout}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
-                Logout
-            </button>
-        </>
-    );
+  return (
+    <ApolloProvider client={apolloClient}>
+      <div style={containerStyle}>
+        {games &&
+          games.map((game: any) => (
+            <div key={game.id} style={gameStyle}>
+              <h2 style={titleStyle}>{game.title}</h2>
+              <p style={platformStyle}>Platform: {game.platform}</p>
+              <button onClick={() => handleDelete(game.id)}>Delete</button>
+            </div>
+          ))}
+      </div>
+      <button
+        onClick={logout}
+        style={{
+          backgroundColor: '#4285f4',
+          color: 'white',
+          fontWeight: 'bold',
+          padding: '10px 20px',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          marginTop: '20px',
+        }}
+      >
+        Logout
+      </button>
+    </ApolloProvider>
+  );
 };
 
 export default GamesPage;

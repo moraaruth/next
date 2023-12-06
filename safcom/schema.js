@@ -2,7 +2,7 @@
 
 export const typeDefs = `#graphQl
   type Game {
-      id: ID!
+      id: ID
       title: String!
       platform: [String!]!
       reviews: [Review!]
@@ -34,7 +34,7 @@ export const typeDefs = `#graphQl
   }
 
   type Mutation {
-      deleteGame(id: ID!): Game
+      deleteGame(id: ID!): Boolean
       addGame(game: AddGameInput): Game
       updateGame(id: ID!, edits: EditGameInput!): Game
   }

@@ -3,10 +3,6 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-<<<<<<< HEAD
-
-=======
->>>>>>> 1937aea666aea428bdfed3492778b9f2e6ed695f
 
 export default function SignUpPage() {
 

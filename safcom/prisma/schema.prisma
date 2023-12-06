@@ -1,18 +1,16 @@
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["mongodb"]
-
 }
 
 datasource db {
   provider = "mongodb"
-  url      = env("MONGO_URI")
+  url      = env("DATABASE_URL")
+}
+
+model games {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  platform String[]
+  title    String
 }
 
 
-model Post {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  ttle    String
-  body    String
-
-}

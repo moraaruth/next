@@ -1,15 +1,4 @@
-// import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 
+export const prisma = new PrismaClient();
 
-// const prisma = new PrismaClient()
-
-// async function main(){
-//     const post = await prisma.post.create({
-//         data: {
-            
-//             body: "My first title"
-//         }
-//     })
-//     console.log(post)
-// }
-// main()

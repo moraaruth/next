@@ -1,6 +1,7 @@
+"use strict"
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-
+import { gql } from 'apollo-server';
 import Game from './models/Game.cjs';
 import mongoose from 'mongoose'
 // const mongoose = require('mongoose');
@@ -9,6 +10,12 @@ const MONGODB = 'mongodb+srv://iammoraaruth:Dakariiman@cluster0.h41xhnv.mongodb.
 //typeDefs
 import { typeDefs } from './schema.js';
 import db from './_db.js';
+
+export const DELETE_GAME = gql`
+  mutation deleteGame($id: ID!) {
+    deleteGame(id: $id)
+  }
+`;
 
 const resolvers = {
     Query: {
@@ -50,58 +57,12 @@ const resolvers = {
         }
     },
 
+    
+
     Mutation: {
-        deleteGame(_, args) {
-            db.games = db.games.filter((g) => g.id !== args.id)
-
-            return db.games
-
-        },
-        // addGame(_, {AddGameInput: { title, platform}}) {
-        // let game = {
-        //     ...args.game,
-        //     id: Math.floor(Math.random() * 10000).toString()
-        // }
-        // db.games.push(game)
-        // const res =  game.save()
-        // return game
-        //     const createGame = new Game({
-        //         title: title,
-        //         platform: platform,
-        //         reviews: reviews
-        //     })
-
-        //     const res = createGame.save()
-
-        //     return {
-        //         id: res.id,
-        //         ...res._doc
-        //     }
-
-        // },
-
-        // addGame (_, { game }, context, info) {
-        //     // Check if 'game' input object exists and contains 'title' and 'platform'
-        //     if (!game || !game.title || !game.platform) {
-        //       throw new Error("Invalid input object or missing required fields.");
-        //     }
-
-        //     // Access 'title' and 'platform' from the 'game' input object
-        //     const { title, platform } = game;
-
-        //     // Perform logic to create a new game or process input data
-        //     // For example, save to a database, etc.
-
-        //     // Return a 'Game' object (replace with actual data or generated values)
-        //     return {
-        //       id: '123', // Replace with actual ID
-        //       title: title,
-        //       platform: platform,
-        //       // Other fields...
-        //     };
-        //   },
-
-        addGame(_, { game }, context, info) {
+       
+     
+        async addGame(_, { game }, context, info) {
             // Check if 'game' input object exists and contains 'title' and 'platform'
             if (!game || !game.title || !game.platform) {
                 throw new Error("Invalid input object or missing required fields.");
@@ -132,19 +93,6 @@ const resolvers = {
         },
 
 
-        //     updateGame(_, args) {
-        //         db.games = db.games.map((g) => {
-        //             if (g.id === args.id) {
-        //                 return { ...g, ...args.edits }
-
-        //             }
-
-        //             return g
-        //         })
-
-        //         return db.games.find((g) => g.id === args.id)
-
-        //     }
 
         async updateGame(_, args) {
             try {
@@ -171,22 +119,24 @@ const resolvers = {
             }
         },
 
-        async  deleteGame(gameId) {
+        deleteGame: async (_, { id }, context) => {
             try {
-              const result = await Game.deleteOne({ _id: gameId });
-              if (result.deletedCount === 1) {
-                console.log('Game deleted successfully');
-                return true; // Indicates successful deletion
+          
+              const deletedGame = await Game.findByIdAndDelete(id);
+              
+              if (deletedGame) {
+                return true;
               } else {
-                console.log('Game not found or could not be deleted');
-                return false; // Indicates no document was deleted
+           
+                return false;
               }
             } catch (error) {
-              console.error('Error deleting game:', error);
-              throw new Error('Failed to delete game');
+              console.error("Error deleting game:", error);
+              return false; 
             }
           }
 
+    
 
     }
 }
@@ -202,22 +152,7 @@ const server = new ApolloServer({
 
 })
 
-// const { url } = await startStandaloneServer(server, {
-//     listen: { port: 4000 }
-// })
 
-// console.log('Server ready at port', 4000)
-
-
-// mongoose.connect(MONGODB, {useNewUrlParser: true})
-//       .then(() => {
-//           console.log("MongoDB Connection successful");
-//           return server.listen({port: 4000})
-//       })
-//       .then((res) => {
-//           console.log(`Server running at ${res.url}`)
-
-//       })
 
 mongoose.connect(MONGODB, { useNewUrlParser: true })
     .then(() => {
